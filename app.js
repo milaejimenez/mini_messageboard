@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const createError = require("http-errors");
-const path = require('path');
+const path = require("path");
+bodyParser = require('body-parser');
 
-const port = 3000;
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-const indexRouter = require('./routes/index');
-const newRouter = require('./routes/new');
+
+const indexRouter = require('./routes');
 
 //View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -14,7 +16,6 @@ app.set('view engine', 'ejs');
 
 //Routing
 app.use("/", indexRouter);
-app.use("/new", newRouter);
 
 //Catch 404
 app.use(function(req, res, next) {
@@ -29,11 +30,8 @@ app.use(function(req, res, next) {
 //     res.render('error');
 // })
 
-app.get('/', function (req, res) {
-    res.send('Hello World');
-})
 
-app.listen(port, () => {
+app.listen(3000, () => {
     console.log("App listening on port")
 })
 
